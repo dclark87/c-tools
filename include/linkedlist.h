@@ -1,6 +1,6 @@
 /* linkedlist.h
  *
- * Author: Daniel Clark
+ * Author: Daniel Clark, 2016
  */
 
 // Define guard
@@ -12,6 +12,7 @@
 
 // Declare _Node struct tag (incomplete) for Node alias
 typedef struct _Node Node;
+// Complete _Node struct definition
 struct _Node{
     int val;
     Node * next;
@@ -34,4 +35,4 @@ void insert_node(List * list, int val);
 
 
 
-#endif //CTOOLS_LINKEDLIST_H
+#endif // CTOOLS_LINKEDLIST_H
