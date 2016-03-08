@@ -6,6 +6,10 @@
 // Includes
 #include "../include/strings_arrays.h"
 
+
+/**
+ * Reverse c-style strings in place
+ */
 void reverse(char * str)
 {
     char * end = str;
@@ -26,5 +30,18 @@ void reverse(char * str)
             // Store rest of str back in end ptr and increment end ptr
             *end-- = tmp;
         }
+    }
+}
+
+/**
+ * Remove duplicate chars from string in place
+ */
+void remove_dups(char * str)
+{
+    int char_idx = 0;
+    int i, j;
+    char test_char;
+
+
     }
 }

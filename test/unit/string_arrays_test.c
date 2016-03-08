@@ -11,15 +11,6 @@
 
 #include "../../include/strings_arrays.h"
 
-// Test the reverse function
-void test_reverse(void)
-{
-    char test_str1[] = "abcd";
-    char test_str1_rev[] = "dcba";
-    reverse(test_str1);
-    CU_ASSERT_STRING_EQUAL(test_str1, test_str1_rev);
-}
-
 /* Pointer to the file used by the tests. */
 static FILE* temp_file = NULL;
 
@@ -67,38 +58,56 @@ void testFPRINTF(void)
    }
 }
 
+// Test the reverse function
+void test_reverse(void)
+{
+    char test_str1[] = "abcd";
+    char test_str1_rev[] = "dcba";
+    reverse(test_str1);
+    CU_ASSERT_STRING_EQUAL(test_str1, test_str1_rev);
+}
 
+// Test the reverse function
+void test_remove_dups(void)
+{
+    char test_str1[] = "zraarbcacd";
+    char test_str1_nodups[] = "zrabcd";
+    remove_dups(test_str1);
+    CU_ASSERT_STRING_EQUAL(test_str1, test_str1_nodups);
+}
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
  */
 int main()
 {
-   CU_pSuite pSuite = NULL;
+    // Init CUnit test suit (pointer to suite)
+    CU_pSuite pSuite = NULL;
 
-   /* initialize the CUnit test registry */
-   if (CUE_SUCCESS != CU_initialize_registry())
-      return CU_get_error();
+    /* initialize the CUnit test registry */
+    if (CUE_SUCCESS != CU_initialize_registry())
+        return CU_get_error();
 
-   /* add a suite to the registry */
-   pSuite = CU_add_suite("Suite_1", init_suite1, clean_suite1);
-   if (NULL == pSuite) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+    // Add a suite to the registry
+    pSuite = CU_add_suite("Suite_1", init_suite1, clean_suite1);
+    // If there was an error adding suite, clean up and return error
+    if (NULL == pSuite) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-   /* add the tests to the suite */
-   /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
-   if ((NULL == CU_add_test(pSuite, "test of fprintf()", testFPRINTF)) ||
-       (NULL == CU_add_test(pSuite, "test of reverse()", test_reverse)))
-   {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+    // Add tests to the suite - if NULL on either, clean and error out
+    if ((NULL == CU_add_test(pSuite, "test of fprintf()", testFPRINTF)) ||
+        (NULL == CU_add_test(pSuite, "test of reverse()", test_reverse)) ||
+        (NULL == CU_add_test(pSuite, "test of remove_dups()", test_remove_dups)))
+    {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
 
-   /* Run all tests using the CUnit Basic interface */
-   CU_basic_set_mode(CU_BRM_VERBOSE);
-   CU_basic_run_tests();
-   CU_cleanup_registry();
-   return CU_get_error();
+    // Run all tests using the CUnit Basic interface
+    CU_basic_set_mode(CU_BRM_VERBOSE);
+    CU_basic_run_tests();
+    CU_cleanup_registry();
+    return CU_get_error();
 }

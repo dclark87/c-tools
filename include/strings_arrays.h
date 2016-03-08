@@ -12,4 +12,7 @@
 // Reverse strings function
 void reverse(char * str);
 
+// Remove dups function
+void remove_dups(char * str);
+
 # endif // CTOOLS_STRINGS_ARRAYS_H
