@@ -10,24 +10,24 @@
 /**
  * Reverse c-style strings in place
  */
-void reverse(char * str)
+void reverse(char* str)
 {
-    char * end = str;
+    char* end = str;
     char tmp;
     if (str) {
         // Increment end index to end of string
-        while (* end) {
+        while (*end) {
             ++end;
         }
-        // Go back one char
+        // Go back one char from null
         --end;
-        // While str ptr val < end ptr val
+        // While str ptr addr (beg idx) < end ptr addr (end idx)
         while (str < end) {
-            // Store str pointer in tmp
-            tmp = * str;
-            // Set value at str ptr to val at end and increment str ptr
-            *str++ = * end;
-            // Store rest of str back in end ptr and increment end ptr
+            // Store str contents into tmp
+            tmp = *str;
+            // Set value at str to last char and reference next char in str
+            *str++ = *end;
+            // Insert beginning char into end idx and decrement ptr
             *end-- = tmp;
         }
     }
@@ -36,12 +36,51 @@ void reverse(char * str)
 /**
  * Remove duplicate chars from string in place
  */
-void remove_dups(char * str)
+void remove_dups(char* str)
 {
-    int char_idx = 0;
-    int i, j;
-    char test_char;
+    if (!str) return;
+    int len = strlen(str);
+    if (len < 2) return;
 
+     int tail = 1;
+     for (int i = 1; i < len; ++i)
+     {
+         int j;
+         for (j = 0; j < tail; ++j)
+             if (str[i] == str[j])
+                 break;
 
+         if (j == tail)
+         {
+             str[tail] = str[i];
+             ++tail;
+         }
+     }
+     str[tail] = '\0';
+ }
+
+void removeDuplicates(char *str)
+{
+
+    if (!str)
+        return;
+    int len = strlen(str);
+    if (len < 2)
+        return;
+    bool hit[256];
+    for(int i = 0; i < 256; ++i)
+        hit[i] = false;
+
+    hit[str[0]] = true;
+    int tail = 1;
+    for (int i = 1; i < len; ++i)
+    {
+        if (!hit[str[i]])
+        {
+            str[tail] = str[i];
+            ++tail;
+            hit[str[i]] = true;
+        }
     }
+    str[tail] = '\0';
 }
